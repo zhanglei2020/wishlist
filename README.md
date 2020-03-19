@@ -28,8 +28,8 @@ If you have not installed Node.js(or version is below 10),You need to install th
 ### 1. Clone this Repository
 
 ```sh
-git clone https://github.com/lijiarui/wechaty-getting-started.git
-cd wechaty-getting-started
+git clone https://github.com/zhanglei2020/wishlist.git
+cd wishlist
 ```
 
 ### 2. Install Dependencies
@@ -44,17 +44,10 @@ npm install
 node bot/wish-list-bot.js
 ```
 
-### 3. Run the wishlist web server
+### 4. Run the wishlist web server
 
 ```sh
 node web/server.js
-```
-
-
-```shell
-# Linux: export WECHATY_LOG=verbose
-# Win32: set WECHATY_LOG=verbose
-node examples/starter-bot.js
 ```
 
 You are all set!
