@@ -1,0 +1,45 @@
+{
+  "name": "wechaty-getting-started",
+  "version": "0.1.19",
+  "description": "Wechaty is a Wechat Bot SDK for Personal Account in Node.js",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 10"
+  },
+  "scripts": {
+    "lint": "eslint 'examples/*.{js,ts}'",
+    "postinstall": "check-node-version --node \">= 10\"",
+    "start": "cross-env WECHATY_LOG=verbose node examples/starter-bot.js",
+    "start:ts": "cross-env WECHATY_LOG=verbose ts-node examples/starter-bot.ts",
+    "test": "npm run lint && npm run test:smoke",
+    "test:smoke": "node tests/smoke-testing.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chatie/wechaty-getting-started.git"
+  },
+  "keywords": [],
+  "author": "Huan LI <zixia@zixia.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chatie/wechaty-getting-started/issues"
+  },
+  "homepage": "https://github.com/Chatie/wechaty-getting-started#readme",
+  "dependencies": {
+    "qrcode-terminal": "^0.12.0",
+    "wechaty": "^0.28.3"
+  },
+  "devDependencies": {
+    "@chatie/eslint-config": "^0.6.17",
+    "@chatie/git-scripts": "^0.2.5",
+    "@chatie/tsconfig": "^0.6.1",
+    "check-node-version": "^3.2.0",
+    "cross-env": "^5.2.0",
+    "is-pr": "^1.1.0"
+  },
+  "git": {
+    "scripts": {
+      "pre-push": "npx git-scripts-pre-push"
+    }
+  }
+}
