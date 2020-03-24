@@ -35,8 +35,8 @@
 
     // 生成分享的愿望列表链接
     return new UrlLink ({
-        description : '您的心愿单包含您近期分享给曼泽心愿机器人的所有链接！',
-        thumbnailUrl: 'http://121.36.25.189:9000/images/logo.jpg',
+        description : WebConfig.share_list_desc,
+        thumbnailUrl: WebConfig.shareList_icon,
         title       : (contact.name() ? contact.name() + "的": "曼泽") + '心愿单',
         url         : WebConfig.share_list_url + "?user_id=" + member.member_id + "&key=" + hex_md5(member.member_id + contact.id)
     })

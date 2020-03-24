@@ -1,6 +1,8 @@
 const ShareUrlModel = require('../../model/controller/share_list')
 const {hex_md5} = require('../library/md5');
 const {log}     = require('brolog')
+const config    = require('../config/mz_config')
+const Wechat    = require('../library/wechat');
 
 // 列表页
 async function index (req, res) {
@@ -20,21 +22,36 @@ async function index (req, res) {
         let verify = hex_md5(input.user_id + wechatId)
         log.info("用户参数校验值：", verify)
         if (input.key != verify) throw ("用户参数非法！")
+        //member.user_key = verify
 
         let response = await ShareUrlModel.getLinkByUser(input)
         if (response.code != 0 || response.data.length == 0) throw ("心愿单为空")
         //console.log(response)
 
         // 传给ejs模板的参数
-        let data = {
-            session: req.session,
+        var data = {
+            //session: req.session,
+            config: config,
             member: member, 
-            shareList: response.data
+            shareList: response.data,
+            share : {}
         }
         //console.log(data)
 
         // 显示列表页
-        res.render("share_link/index.ejs", data)
+        res.render("share_link/index.ejs", data, async (err1, str1) => {
+            // 获取微信分享的相关参数
+            response = await Wechat.getShareData()
+            data.share = response || {}
+            //console.log("data:", data)
+
+            res.render("wechat_share/share.ejs", data, (err2, str2) => {
+                console.log(str2)
+                res.send(str1 + str2)
+            })
+        })
+        // 分享
+        //res.render("wechat_share/share.ejs")
     } catch (e) {
         log.error(e)
         // 显示邀请页

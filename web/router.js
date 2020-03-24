@@ -16,8 +16,11 @@ Router.get('/share_list/:action', async (req, res) => {
     log.info("登陆前SessionId：", req.sessionID)
     log.info("登录前Session：", req.session.user)
     // 登录（根据sessionid查询是否有用户）
-    await user.autoLogin(req)    
+    await user.autoLogin(req)
     log.info("登录后Session：", req.session.user)
+    
+    // 设置本次请求的全局变量
+    res.locals.user = req.session.user
 
     //接口校验result
     //let result = Validator(req.query)
