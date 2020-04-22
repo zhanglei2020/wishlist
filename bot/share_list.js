@@ -1,6 +1,7 @@
   const ShareListModel  = require('../model/controller/share_list')
   const WebConfig = require('../web/config/mz_config')
   const {hex_md5} = require('../web/library/md5');
+  const JDApi     = require('./website/api.jd.com');
 
   const {
     //Wechaty,
@@ -18,6 +19,7 @@
     params.wechatId = contact.id || ''
     params.wechatName = contact.name() || ''
     params.wechatAvatar = avatar.remoteUrl || '' 
+    params.promotionUrl = await JDApi.getPromotionUrl(params.shareUrl) || ''
 
     var insertResult = await ShareListModel.insertShareList(params)
     //console.log("haha:", insertResult)
@@ -36,7 +38,7 @@
     // 生成分享的愿望列表链接
     return new UrlLink ({
         description : WebConfig.share_list_desc,
-        thumbnailUrl: WebConfig.shareList_icon,
+        thumbnailUrl: WebConfig.share_list_icon,
         title       : (contact.name() ? contact.name() + "的": "曼泽") + '心愿单',
         url         : WebConfig.share_list_url + "?user_id=" + member.member_id + "&key=" + hex_md5(member.member_id + contact.id)
     })

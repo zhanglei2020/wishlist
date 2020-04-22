@@ -3,6 +3,7 @@ const {hex_md5} = require('../library/md5');
 const {log}     = require('brolog')
 const config    = require('../config/mz_config')
 const Wechat    = require('../library/wechat');
+//const JDApi     = require('../../bot/website/api.jd.com');
 
 // 列表页
 async function index (req, res) {
@@ -46,11 +47,13 @@ async function index (req, res) {
             //console.log("data:", data)
 
             res.render("wechat_share/share.ejs", data, (err2, str2) => {
-                console.log(str2)
+                //console.log(str2)
                 res.send(str1 + str2)
             })
         })
-        // 分享
+
+        // 获取微信分享的相关参数
+        response = await Wechat.getAccessToken()
         //res.render("wechat_share/share.ejs")
     } catch (e) {
         log.error(e)

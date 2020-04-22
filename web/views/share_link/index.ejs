@@ -40,12 +40,12 @@
 				}				
 			%>
 				<div class="list-con">
-					<a class="product-img" href="<%= item.url || 'javascript:;'%>" target="_blank">
+					<a class="product-img" href="<%= item.promotion_url || item.url || 'javascript:;'%>" target="_blank">
 						<img src="<%= item.img_url || ''%>"/>
 					</a>
 					<div class="list-right">
 						<div class="product-title">
-							<a class="product-tit" href="<%= item.url || ''%>" target="_blank"><%= item.title || ""%></a>
+							<a class="product-tit" href="<%= item.promotion_url || item.url || ''%>" target="_blank"><%= item.title || ""%></a>
 						</div>
 						<div class="product-price"><%- strPrice%></div>
 					</div>

@@ -15,6 +15,14 @@ Router.get('/share_list/:action', async (req, res) => {
     log.info("登录前cookie：", req.session.cookie)
     log.info("登陆前SessionId：", req.sessionID)
     log.info("登录前Session：", req.session.user)
+
+    //尝试获取openid
+    let openid = await user.getOpenid(req, res)
+    if (openid && openid == "REDIRECT") return
+    //res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize")
+    
+    return false
+
     // 登录（根据sessionid查询是否有用户）
     await user.autoLogin(req)
     log.info("登录后Session：", req.session.user)

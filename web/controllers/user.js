@@ -2,6 +2,7 @@ const ShareListModel = require('../../model/controller/share_list')
 const {hex_md5} = require('../library/md5')
 const {log}     = require('brolog')
 
+// 自动登录
 async function autoLogin(req) {
     try {
         // 已经登录直接返回
@@ -36,7 +37,8 @@ async function autoLogin(req) {
       setUserSession(req, {})
     }  
 }
-  
+
+// 设置用户session
 function setUserSession(req, data) {
     req.session.user = {
         user_id       : data.id || '',
@@ -47,9 +49,28 @@ function setUserSession(req, data) {
     }
 }
 
+// 获取用户openid
+async function getOpenid(req, res) {
+    try {
+        console.log(req.query)
+
+        res.writeHead(301, {'Location' : 'https://open.weixin.qq.com/connect/oauth2/authorize'})
+        console.log("重定向。。。。。")
+        res.end()
+
+        return "REDIRECT"
+
+    } catch(e) {
+      log.error(e)
+      
+    }  
+}
+
+
 let user = {
     autoLogin,
-    setUserSession
+    setUserSession,
+    getOpenid
 }
 
 module.exports = user

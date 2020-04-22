@@ -29,6 +29,7 @@ module.exports = {
             params.title || '',
             params.description || '',
             params.shareUrl || '',
+            params.promotionUrl || '',
             params.productId || '',
             params.price || 0,
             params.image || ''
@@ -44,7 +45,7 @@ module.exports = {
         //console.log("slist:", shareList)
         //console.log("params:", params)
         //当数据变化时更新商品数据
-        if (!shareList || (shareList && (shareList.title != params.title || shareList.img_url != params.image || shareList.desc != params.description || shareList.price != parseFloat(params.price)))) {
+        if (!shareList || (shareList && (shareList.title != params.title || shareList.img_url != params.image || shareList.desc != params.description || shareList.promotion_url != params.promotionUrl || shareList.price != parseFloat(params.price)))) {
             let result = await query(sql1, shareListData)
             //console.log("insert sharelist result:", result)
             if (result.code != 0) throw "心愿列表新增不成功！"
