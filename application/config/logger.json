@@ -1,0 +1,71 @@
+{   "services": [{
+        "name"     : "web",
+        "category" : "WebServer"
+    }, {
+        "name"     : "bot",
+        "category" : "BotServer"
+    }],
+    "default": {
+        "appenders": {
+            "out": {
+                "type": "console"
+            },
+            "access": {
+                "type": "dateFile",
+                "filename": "../logs/access.log",
+                "pattern": "yyyy-MM-dd",
+                "compress": true,
+                "alwaysIncludePattern": true,
+                "daysToKeep": 15,
+                "keepFileExt": true
+            },
+            "default": {
+                "type": "dateFile",
+                "filename": "../logs/info.log",
+                "pattern": "yyyy-MM-dd",
+                "compress": true,
+                "alwaysIncludePattern": true,
+                "daysToKeep": 15,
+                "keepFileExt": true
+            },
+            "error": {
+                "type": "dateFile",
+                "filename": "../logs/error.log",
+                "pattern": "yyyy-MM-dd",
+                "compress": true,
+                "alwaysIncludePattern": true,
+                "daysToKeep": 15,
+                "keepFileExt": true
+            },
+            "minAccess": {
+                "type": "logLevelFilter",
+                "appender": "access",
+                "level": "trace"
+            },
+            "maxInfo": {
+                "type": "logLevelFilter",
+                "appender": "default",
+                "level": "debug",
+                "maxLevel": "error"
+            },
+            "minError": {
+                "type": "logLevelFilter",
+                "appender": "error",
+                "level": "error"
+            }
+        },
+        "categories": {
+            "default": {
+                "appenders": [
+                "out",
+                "maxInfo",
+                "minError",
+                "minAccess"
+                ],  
+                "level": "all",
+                "enableCallStack": true
+            }
+        },
+        "replaceConsole": true
+    }    
+}

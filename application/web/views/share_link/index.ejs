@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1">
+		<title><%= member.wechat_name ? (member.wechat_name + "的") : "曼泽"%>心愿单</title>
+		<link rel="shortcut icon" type="image/x-icon" href="/images/logo.jpg">
+		<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="/css/wishlist.css" />
+	</head>
+
+	<body>
+		<div class="container" <% if (user.user_id != member.id) { %>style="padding-bottom: 70px;"<% } %>>
+			<!-- wx info start -->
+			<div class="wx-info">
+				<div class="wx-avatar">
+					<img src="<%= member.wechat_avatar || '/images/wx-avatar-500x500.jpg'%>"/>
+				</div>
+				<div class="wx-right">
+					<h1><%= member.wechat_name || "您"%>的心愿单</h1>
+					<span><%= shareList.length || 0%>个心愿商品</span>
+				</div>
+			</div>
+			<!-- wx info end -->
+
+			<!-- list start -->
+			<% if (user.user_id != member.id) { %>
+				<div class="list-text">以下商品都是<%= member.wechat_name%>想拥有的，选一件送给Ta吧！</div>
+			<% } else { %>
+				<div class="list-text">点击右上角，将心愿单分享给好友，期待Ta能帮你达成心愿！</div>
+			<% } %>
+			<% if (shareList) shareList.forEach(item => {
+				if (item.price < 0) {
+					var strPrice = "已下架"
+				} else {
+					let price = item.price.toFixed(2) || "0.00"
+					var strPrice = "<dfn>￥</dfn>" + price.slice(0, -2) + '<b>' + price.slice(-2) + '</b>'
+				}				
+			%>
+				<div class="list-con">
+					<a class="product-img" href="<%= item.promotion_url || item.url || 'javascript:;'%>" target="_blank">
+						<img src="<%= item.img_url || ''%>"/>
+					</a>
+					<div class="list-right">
+						<div class="product-title">
+							<a class="product-tit" href="<%= item.promotion_url || item.url || ''%>" target="_blank"><%= item.title || ""%></a>
+						</div>
+						<div class="product-price"><%- strPrice%></div>
+					</div>
+					<% if (user.user_id == member.id) { %>
+						<i class="material-icons share_item" item_id="<%= item.id%>" item_name="<%= item.title || ""%>">delete_outline</i>
+					<% } %>
+				</div>
+			<% }) %>
+			<% if (user.user_id != member.id) { %>
+				<div class="list-bottom">
+					<button id="btn_my_list">
+						<i class="material-icons">favorite</i>
+						拥有我的心愿单
+						<i class="material-icons">favorite</i>
+					</button>
+				</div>
+			<% } %>
+			<!-- list end -->
+		</div>
+	</body>
+	<script type="text/javascript" charset="utf-8" src="//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/js/layer_3/layer.js"></script>
+	<script>
+		$("#btn_my_list").click(function(){
+			location.href = "index?user_id=<%= user.user_id || ''%>&key=<%= user.user_key || ''%>"
+		})
+
+		$(".share_item").click(function(){
+			console.log($(this).attr("item_id"))
+			let item_name = $(this).attr("item_name")
+			let get_url = "del"
+			let get_data = {
+				item_id : $(this).attr("item_id")
+			}
+
+			layer.confirm("您确定要删除“" + item_name + "”吗?", function(){
+				$.get(get_url, get_data, function(return_data){
+					console.log(return_data)
+					if (return_data.code != 0) 
+						layer.msg(return_data.msg || "未知错误")
+					else {
+						layer.msg("删除成功")
+						location.reload()
+					}
+				}, "json")
+			})
+		})
+	</script>
+
+</html>
