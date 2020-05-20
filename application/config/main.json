@@ -1,0 +1,12 @@
+{
+    "token"            : "778F2B549DAC47E594B38E83B92F7FAA",
+    "bot_server"       : "121.36.25.189",
+    "http_protocol"    : "http",
+    "http_port"        : "9000",
+    "listen_port"      : "9000",
+    "timezone_offset"  : 480,
+    "share_list_desc"  : "您的心愿单包含您近期分享给曼泽心愿机器人的所有链接！",
+    "share_list_url"   : "http://121.36.25.189:9000/mzs/share_list/index",
+    "share_list_icon"  : "https://wishlist.manze.com/images/logo.png"
+}
+  
