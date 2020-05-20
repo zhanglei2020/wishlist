@@ -18,6 +18,13 @@ var sqlMap = {
     deleteShareList : "DELETE from t_member_share_list where id = ? and member_id = ?"
     
   },
+  heartbeat: {
+    insertOrUpdateHeartbeat : "INSERT INTO t_heartbeat (id, bot_id, data, beat_time) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE bot_id=VALUES(bot_id), data=VALUES(data), beat_time=VALUES(beat_time)",
+    getHeartbeatById: "SELECT * FROM t_heartbeat WHERE id = ?"
+  },
+  message: {
+    insertMessage: "INSERT INTO t_received_message (contact, contact_id, message, type) VALUES (?,?,?,?)"
+  }
 
 }
 

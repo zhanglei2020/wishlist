@@ -31,7 +31,9 @@
   const ShareList = require('./share_list')
   const WebConfig = require('../config/main')
   const MessageType = require('./message_type')
-  
+  const HeartBeatModel = require('../models/controller/heartbeat')
+  const MessageModel   = require('../models/controller/message')
+
   /**
    *
    * 1. Declare your Bot!
@@ -53,6 +55,7 @@
   .on('error',  onError)
   .on('message', onMessage)
   .on('friendship', onFriendship)
+  .on('heartbeat', onHeartbeat)
   
   /**
    *
@@ -135,8 +138,17 @@
     var contact = msg.from() 
     //log.info(contact)
 
+    // 保存消息
+    let params = {
+      contact: contact.name() || '',
+      contact_id: contact.id || '',
+      message: msg.text() || '',
+      type: msg.type()
+    }  
+    MessageModel.insertMessage(params)
+
     // 如果不是链接或小程序，则忽略
-    if (msg.type() != bot.Message.Type.Video && msg.type() != bot.Message.Type.MiniProgram)
+    if (msg.type() != bot.Message.Type.Url && msg.type() != bot.Message.Type.MiniProgram)
       return
 
     var _messageType
@@ -148,7 +160,7 @@
        * 消息类型：分享链接\小程序
        *
        */
-      case bot.Message.Type.Video:
+      case bot.Message.Type.Url:
         _messageType = "ShareLink"
         break
       case bot.Message.Type.MiniProgram:
@@ -233,6 +245,41 @@
     }
   }
 
+  // 机器人心跳
+  function onHeartbeat (data) {
+    log.trace(data)
+    //log.info(bot)
+    
+    try {
+      const contact = bot.userSelf()
+      //bot.say('hello')
+
+      // 获取当前时间
+      let t = new Date()
+      //log.info(t)
+
+      // 整理参数
+      let params = {
+        id: 1,
+        data: JSON.stringify(data),
+        bot_id: bot.id,
+        beat_time: Math.round(t.getTime()/1000)
+      }
+
+      // 保存数据库表心跳信息
+      HeartBeatModel.insertOrUpdateHeartbeat(params)
+
+    } catch(e) {
+      log.error("机器人还未登录，获取联系人失败！")
+    }
+
+    //let id = bot.id
+    //log.info(`Bot id is `, id)
+    //log.info(bot.state)
+    //log.info(bot.readyState)
+    //log.info(bot.lifeTimer)
+  }
+  
   
   /**
    *

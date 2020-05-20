@@ -1,7 +1,8 @@
 const request = require("request")
 const log     = require('../libraries/logger')()
 
-function requestWebsite (request_url, post_params, http_method) {  
+// 发起请求，目前支持POST、GET
+function requestWebsite (request_url, post_params, http_method) {
 
     try {
         if (!request_url) throw ("url地址为空")
@@ -32,6 +33,7 @@ function requestWebsite (request_url, post_params, http_method) {
         return new Promise ((resolve, reject) => {
             request.get(request_url, function (err, res, body) {
                 if (err) reject(err)
+                //log.debug(res)
                 //log.debug(body)
                 resolve(body)
             })
@@ -43,6 +45,12 @@ function requestWebsite (request_url, post_params, http_method) {
         log.error(e)
         return false
     }    
+}
+
+// 当请求返回重定向时，继续请求到重定向的地址，最多允许跳转3次
+function requestWebsiteAndRedirect(request_url, post_params, http_method) {
+
+    let response = await requestWebsite(request_url, post_params, http_method)
 }
 
 

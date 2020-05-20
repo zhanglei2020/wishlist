@@ -1,6 +1,7 @@
 const requestWeb = require('../api')
 const {hex_md5}  = require("../../libraries/md5")
 const config     = require("../../config/api")
+const mainConfig = require("../../config/main")
 const jd_config  = config.jd
 const log        = require('../../libraries/logger')()
 
@@ -99,7 +100,14 @@ function buildRequestUrl (productUrl) {
 }
 
 function getCurrentTime (fmt) {
+    // 当前服务器时间
     var t = new Date()
+    // 服务器时间与本地区时间的差，以分钟为单位
+    var offset = mainConfig.timezone_offset
+    //log.info(offset)
+    // 计算本地区时间
+    t = new Date(t.getTime() + offset * 60000)
+    //log.info(t)
     var o = {
         "M+": t.getMonth() + 1, //月份
         "d+": t.getDate(), //日
