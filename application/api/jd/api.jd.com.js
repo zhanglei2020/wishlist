@@ -1,4 +1,4 @@
-const requestWeb = require('../api')
+const api = require('../api')
 const {hex_md5}  = require("../../libraries/md5")
 const config     = require("../../config/api")
 const mainConfig = require("../../config/main")
@@ -129,7 +129,7 @@ async function getPromotionUrl (productUrl) {
     //log.debug(productUrl);
     try {
         let requestUrl = buildRequestUrl(productUrl)
-        let response = await requestWeb(requestUrl)
+        let response = await api.requestWebsite(requestUrl)
 
         // 解析返回结果
         var result = JSON.parse(response)

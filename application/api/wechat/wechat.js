@@ -3,7 +3,7 @@ const local   = require("./local")
 const proxy   = require("./proxy")
 const log     = require('../../libraries/logger')()
 //const {hex_md5}  = require("../../libraries/md5")
-//const requestWeb = require('../../api/api')
+//const api = require('../../api/api')
 
 // 初始化
 var wechat = {}

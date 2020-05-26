@@ -2,6 +2,7 @@
   const WebConfig = require('../config/main')
   const {hex_md5} = require('../libraries/md5')
   const JDApi     = require('../api/jd/api.jd.com')
+  const shareInfo = require('../libraries/share_info')
   const log       = require('../libraries/logger')()
 
   const {
@@ -48,13 +49,15 @@
     var contact = msg.from()
     //log.info(member)
 
+    //获取分享的标题、描述等信息
+    let params = {name: contact.name()}
+
     // 生成分享的愿望列表链接
     return new UrlLink ({
-        description : WebConfig.share_list_desc,
-        thumbnailUrl: WebConfig.share_list_icon,
-        title       : (contact.name() ? contact.name() + "的": "曼泽") + '心愿单',
-        //url         : WebConfig.share_list_url + "?user_id=" + member.member_id + "&key=" + hex_md5(member.member_id + contact.id)
-        url         : WebConfig.share_list_url + "?key=" + createUserKey(contact.id)
+        description : shareInfo.getShareText("wish_list", "desc", params),
+        thumbnailUrl: shareInfo.getShareUrl("wish_list", "icon"),
+        title       : shareInfo.getShareText("wish_list", "title", params),
+        url         : shareInfo.getShareUrl("wish_list", "base_url") + "?key=" + createUserKey(contact.id)
     })
   }
 

@@ -1,11 +1,12 @@
 <script>
-    var title  = '<%= member.wechat_name ? (member.wechat_name + "的") : "曼泽"%>心愿单';
-    var link   = location.href; //"index?user_id=<%= member.user_id || ''%>&key=<%= member.user_key || ''%>";
-    var imgUrl = '<%= config.share_list_icon || ""%>';
-    var desc   = '<%= config.share_list_desc || ""%>';
+    var title  = '<%= shareInfo.title || ""%>';
+    var friendTitle = '<%= shareInfo.friend_title || ""%>';
+    var link   = location.href;
+    var imgUrl = '<%= shareInfo.img || ""%>';
+    var desc   = '<%= shareInfo.desc || ""%>';
     var type   = 'link';
     var dataUrl = '';
-    var imgDefault = '<%= config.share_list_icon || ""%>';
+    var imgDefault = '<%= shareInfo.img || ""%>';
 </script>
 
 <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
@@ -31,7 +32,7 @@
 
         // 分享到朋友圈或分享到QQ空间
         wx.updateTimelineShareData({
-            title: title, // 分享标题
+            title: friendTitle, // 分享标题
             link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
             imgUrl: imgUrl == ''?imgDefault:imgUrl, // 分享图标
             success: function () {

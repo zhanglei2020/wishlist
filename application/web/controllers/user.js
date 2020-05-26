@@ -3,7 +3,7 @@ const log            = require('../../libraries/logger')()
 const Wechat         = require('../../api/wechat/wechat')
 //const Url       = require("url")
 //const config    = require('../../config/main')
-//const requestWeb= require('../api')
+//const api= require('../api')
 //const {hex_md5}      = require('../../libraries/md5')
 
 // 自动登录

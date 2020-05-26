@@ -1,10 +1,10 @@
-const requestWeb = require('../api')
+const api = require('../api')
 const log        = require('../../libraries/logger')()
 
 // 分析Html页面
 async function parseHtml(request_url) {
     //请求网页
-    let html = await requestWeb(request_url)
+    let html = await api.requestWebsite(request_url)
     //log.debug("html:\n", html)
     if (!html) return {}
 

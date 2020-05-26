@@ -17,7 +17,7 @@ let Validator = {
 
     //检查好友申请信息
     checkFriendConfirm : (inputUrl) => {
-        return /(wishlist|愿望列表)/i.test(inputUrl)
+        return /(wishlist|心愿单)/i.test(inputUrl)
     },
 
     //生成京东商品的链接

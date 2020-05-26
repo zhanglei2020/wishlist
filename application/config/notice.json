@@ -1,0 +1,57 @@
+{
+    "receivers": {        
+        "zhanglei": {
+            "name"              : "张雷",
+            "mobile"            : [13901303169],
+            "mail"              : ["zhanglei@corp.manze.com"],
+            "wechat_notice_user": "zhanglei",
+            "alias"             : "江湖夜雨"
+        },        
+        "jiangling": {
+            "name"              : "姜岭",
+            "mobile"            : [13718224045],
+            "mail"              : ["jiangling@corp.manze.com"],
+            "wechat_notice_user": "jiangling",
+            "alias"             : "江南"
+        },
+        "Eric": {
+            "name"              : "王东军",
+            "mobile"            : [13701322233],
+            "mail"              : ["djwang@corp.manze.com"],
+            "wechat_notice_user": "djwang",
+            "alias"             : "Eric"
+        }      
+    },
+    "groups": {
+        "admin": ["zhanglei", "jiangling", "Eric"]
+    },
+    "templates": {
+        "offlineMail": {
+            "type"    : "mail",
+            "subject" : "曼泽心愿机器人掉线提醒",
+            "format"  : "html",
+            "html"    : "<b>Hi， 曼泽心愿机器人已经掉线超过${time}，请尽快处理！</b>",
+            "interval" : 60
+        },
+        "offlineWechat": {
+            "type"    : "wechat",
+            "content" : "曼泽心愿机器人已经掉线超过${time}，请尽快处理！",
+            "charset" : "gbk",
+            "interval"   : 60,
+            "workPeriod" : "7-22"
+        },
+        "offlineSMS": {
+            "type"     : "sms",
+            "content"  : "曼泽心愿机器人已经掉线超过${time}，请尽快处理！",
+            "interval" : 120,
+            "maxTimesPerDay" : 5,
+            "workPeriod" : "6-22"
+        }
+    },
+    "events": {
+        "offline": {
+            "receivers": "admin",
+            "templates": ["offlineWechat", "offlineMail", "offileSMS"]
+        }
+    }
+}

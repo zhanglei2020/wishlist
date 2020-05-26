@@ -2,7 +2,7 @@ const mainConfig = require('../../config/main')
 const wechatConfig = require('../../config/api')
 const proxyConfig= wechatConfig.wechat_proxy
 const {hex_md5}  = require("../../libraries/md5")
-const requestWeb = require('../api')
+const api        = require('../api')
 const Url        = require("url")
 const log        = require('../../libraries/logger')()
 
@@ -74,7 +74,7 @@ async function requestWechatProxy (serviceName, params, httpMethod) {
         let wechatServiceUrl = createWechatProxyUrl(serviceName)
         log.info(wechatServiceUrl)
 
-        let response = await requestWeb(wechatServiceUrl, params, httpMethod)
+        let response = await api.requestWebsite(wechatServiceUrl, params, httpMethod)
         log.info(response)
         if (!response) throw ("获取验证参数失败！")
 

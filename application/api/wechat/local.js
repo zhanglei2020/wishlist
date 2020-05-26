@@ -1,6 +1,6 @@
 const config      = require('../../config/api')
 const localConfig = config.wechat
-const requestWeb  = require('../api')
+const api  = require('../api')
 const proxy       = require('./proxy')
 const log         = require('../../libraries/logger')()
 
@@ -34,7 +34,7 @@ async function getOpenid(req, res) {
         log.info(wechatAuthUrl)
 
         // 访问微信接口获取openid
-        let response = await requestWeb(wechatAuthUrl)
+        let response = await api.requestWebsite(wechatAuthUrl)
         response = JSON.parse(response)
         log.info(response)
 

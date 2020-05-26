@@ -24,8 +24,11 @@ var sqlMap = {
   },
   message: {
     insertMessage: "INSERT INTO t_received_message (contact, contact_id, message, type) VALUES (?,?,?,?)"
+  },
+  notice: {
+    insertSendedNotice : "INSERT INTO t_sended_notice (event, msg_type, receivers, content, send_time) VALUES (?,?,?,?,?) ",
+    getLastSendedNotice: "SELECT * FROM t_sended_notice WHERE event=? AND msg_type=? ORDER BY id DESC limit 1"
   }
-
 }
 
 module.exports = sqlMap;

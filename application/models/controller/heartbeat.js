@@ -5,7 +5,7 @@
 const query  = require('../api');
 const $sql   = require('../sqlfun');   //sql语句
 const log    = require('../../libraries/logger')()
-
+const config = require('../../config/main')
 
 // 插入或更新心跳信息
 async function insertOrUpdateHeartbeat (params) {
@@ -23,6 +23,20 @@ async function insertOrUpdateHeartbeat (params) {
 }
 
 
+//获取当前心跳信息
+async function getHeartbeat () {
+    var sql = $sql.heartbeat.getHeartbeatById
+    var data = [config.heartbeat_id]      
+    //log.debug(data)
+
+    //查询
+    let list = await query(sql, data)
+    //log.info(list)
+
+    return list     
+}
+
 module.exports = {
-    insertOrUpdateHeartbeat
+    insertOrUpdateHeartbeat,
+    getHeartbeat
 }

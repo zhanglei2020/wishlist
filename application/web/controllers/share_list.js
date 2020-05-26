@@ -1,5 +1,6 @@
 const ShareUrlModel = require('../../models/controller/share_list')
 const log           = require('../../libraries/logger')()
+const shareInfo     = require('../../libraries/share_info')
 const config        = require('../../config/main')
 const Wechat        = require('../../api/wechat/wechat')
 
@@ -29,15 +30,25 @@ async function index (req, res) {
         if (response.code != 0 || response.data.length == 0) throw ("心愿单为空")
         //log.info(response)
 
+        //获取分享的标题、描述等信息
+        let params = {name: member.wechat_name}
+        let _share_info = {
+            img: shareInfo.getShareUrl("wish_list", "icon"),
+            title:  shareInfo.getShareText("wish_list", "title", params),
+            friend_title:  shareInfo.getShareText("wish_list", "friend_title", params),
+            desc:  shareInfo.getShareText("wish_list", "desc", params),
+        }
+
         // 传给ejs模板的参数
         var data = {
             //session: req.session,
-            config: config,
-            member: member, 
+            config   : config,
+            member   : member, 
             shareList: response.data,
-            share : {}
+            shareInfo: _share_info,
+            share    : {}
         }
-        //log.info(data)
+        log.info(data)
 
         // 显示列表页
         res.render("share_link/index.ejs", data, async (err1, str1) => {

@@ -47,11 +47,24 @@ function requestWebsite (request_url, post_params, http_method) {
     }    
 }
 
+// 拼接所有url参数名和值，把secret拼到字符串的2端，用于生成签名
+function joinUrlParams (objParams) {
+    let str = ""
+    for (const key in objParams) {
+        //log.info(key)
+        str += (!str ? "?" : "&" ) + key + '=' + objParams[key]        
+    }
+    //log.info(str)
+    return str;
+}
+
 // 当请求返回重定向时，继续请求到重定向的地址，最多允许跳转3次
 function requestWebsiteAndRedirect(request_url, post_params, http_method) {
 
-    let response = await requestWebsite(request_url, post_params, http_method)
+    //let response = await requestWebsite(request_url, post_params, http_method)
 }
 
 
-module.exports = requestWebsite
+module.exports = {
+    requestWebsite, joinUrlParams
+}

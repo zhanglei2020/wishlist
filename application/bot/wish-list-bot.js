@@ -122,17 +122,22 @@
     //log.debug(msg.toString())
     //log.debug((new Date()).toLocaleTimeString(), msg.toString())
     //log.debug(msg.text())
-    log.debug(msg.type())
-    log.debug(bot.Message.Type)
+    log.debug("收到消息，类型编号为：", msg.type())
+    log.debug("收到消息，类型名称为：", bot.Message.Type[msg.type()])
   
     // 超时
     if (msg.age() > 60) {
-        log.error('Message discarded because its TOO OLD(than 1 minute)')
-        return
+      log.debug("消息收发间隔时间：", msg.age())
+      log.debug("消息内容：", msg.text())
+      log.error('Message discarded because its TOO OLD(than 1 minute)')
+      return
     }
 
     // 如果是群消息，则忽略
-    if (msg.room()) return
+    if (msg.room()) {
+      log.debug("收到来自群（" + msg.room().topic() + "）的消息，自动忽略！")
+      return
+    }
 
     // 获取联系人
     var contact = msg.from() 
@@ -231,7 +236,8 @@
            *  reply image(qrcode image)
            */
           const fileBox1 = FileBox.fromFile('../web/static/images/reply.jpg')
-          await contact.say(fileBox1)  
+          log.debug(fileBox1)
+          await contact.say(fileBox1)
 
           //await contact.say("欢迎使用曼泽愿望机器人！")
           //await contact.say("只要您把常购买的商品链接分享给我，我就会给您定制一份属于您的购买愿望列表！")
@@ -260,7 +266,7 @@
 
       // 整理参数
       let params = {
-        id: 1,
+        id: WebConfig.heartbeat_id,
         data: JSON.stringify(data),
         bot_id: bot.id,
         beat_time: Math.round(t.getTime()/1000)
