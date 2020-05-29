@@ -25,7 +25,7 @@ Router.get('/share_list/:action', async (req, res) => {
     if (result && result == 'REDIRECT') return
     
     // 设置本次请求的全局变量
-    res.locals.user = req.session.user
+    res.locals.user = req.session.user || {}
 
     //接口校验result
     //let result = Validator(req.query)
@@ -37,6 +37,11 @@ Router.get('/share_list/:action', async (req, res) => {
     log.error(e)
     res.send("您访问的页面不存在！")
   }
-}); 
+})
+
+Router.get('/recommend_list/:action', async (req, res) => {
+  res.send("hello world")
+
+})
 
 module.exports = Router

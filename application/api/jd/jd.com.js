@@ -1,8 +1,10 @@
-const api = require('../api')
-const log        = require('../../libraries/logger')()
+const api       = require('../api')
+const JDApi     = require('./api.jd.com')
+const log       = require('../../libraries/logger')()
 
 // 分析Html页面
 async function parseHtml(request_url) {
+    if(!request_url) return false
     //请求网页
     let html = await api.requestWebsite(request_url)
     //log.debug("html:\n", html)
@@ -60,10 +62,7 @@ function getImageFromPage (html) {
     else return ""
 }
 
-
-var JDWebsite = {
-    parseHtml
+module.exports =  {
+    parseHtml, 
+    getPromotionUrl : JDApi.getPromotionUrl
 }
-
-
-module.exports = JDWebsite

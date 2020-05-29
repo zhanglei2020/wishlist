@@ -10,7 +10,7 @@
 let Validator = {
     //检查是否为京东的链接
     checkUrlIsJD : (inputUrl) => {
-        if (/\.jd\.com\//i.test(inputUrl)) return true
+        if (/\.jd\.(com|hk)\//i.test(inputUrl)) return true
 
         return (/appid=wx91d27dbf599dff74/i.test(inputUrl))
     },

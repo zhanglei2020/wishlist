@@ -56,7 +56,7 @@ async function autoLogin(req, res) {
 
         // 检查是否微信访问，如果不是则使用sessionid登录
         if (!checkIsWechat(req)) {
-            autoLoginBySession(req)
+            await autoLoginBySession(req)
             return
         }
 

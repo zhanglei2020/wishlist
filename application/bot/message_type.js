@@ -22,7 +22,7 @@ function parseXmlOfShareLink (xml) {
                 //log.info("jd 检查结果：", Validator.checkUrlIsJD(url))
 
                 //检查是否合格的链接
-                if (!Validator.checkUrlIsJD(url)) throw("错误的京东链接地址！");
+                if (!Validator.checkUrlIsJD(url)) throw("错误的京东链接地址！")
                 
                 //获取产品id
                 let product_id = Validator.getProductId(url)
@@ -38,6 +38,7 @@ function parseXmlOfShareLink (xml) {
                 let info = await JD_Website.parseHtml(share_url)
                 //log.info(info)
                 if (!info) throw("分析网页信息发生错误！")
+                if (!info.price && !info.image) throw ("京东页面无法抓取到价格和图片信息！")
                 
                 resolve({
                     title        : title,

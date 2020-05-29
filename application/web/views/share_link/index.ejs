@@ -39,7 +39,7 @@
 					var strPrice = "<dfn>￥</dfn>" + price.slice(0, -2) + '<b>' + price.slice(-2) + '</b>'
 				}				
 			%>
-				<div class="list-con">
+				<div class="list-con" item_id="<%= item.share_list_id%>">
 					<a class="product-img" href="<%= item.promotion_url || item.url || 'javascript:;'%>" target="_blank">
 						<img src="<%= item.img_url || ''%>"/>
 					</a>
@@ -69,10 +69,23 @@
 	<script type="text/javascript" charset="utf-8" src="//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="/js/layer_3/layer.js"></script>
 	<script>
+		// 跳转至我的心愿单
 		$("#btn_my_list").click(function(){
 			location.href = "index?user_id=<%= user.user_id || ''%>&key=<%= user.user_key || ''%>"
 		})
 
+		// 点击链接同时触发操作
+		$(".list-con").click(function(){
+			let get_url = 'click'
+			let get_data = {
+				item_id : $(this).attr("item_id")
+			}
+			$.get(get_url, get_data, function(return_data){
+					console.log(return_data)
+			})
+		})
+
+		// 删除按钮
 		$(".share_item").click(function(){
 			console.log($(this).attr("item_id"))
 			let item_name = $(this).attr("item_name")

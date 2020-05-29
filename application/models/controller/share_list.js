@@ -1,21 +1,21 @@
 /*
  * 分享列表
  */
-const query  = require('../api');
-const $sql   = require('../sqlfun');   //sql语句
+const query  = require('../api')
+const $sql   = require('../sqlfun')   //sql语句
 const log    = require('../../libraries/logger')()
 
 module.exports = {
 
     //新增分享链接记录
     async insertShareList (params) {
-        if (!params) return false;
+        if (!params) return false
 
         var sql1 = $sql.wishList.insertShareList
         var sql2 = $sql.wishList.insertMember
         var sql3 = $sql.wishList.insertMemberList
         var shareList, member, shareListId, memberId
-        //var params = req.query;
+        //var params = req.query
         //log.debug('params::', params)
 
         //组织数据参数
@@ -80,6 +80,26 @@ module.exports = {
         return response
     },
 
+    // 更新
+    async updateShareList(id, params) {
+        if (!id || !params || typeof params != "object") return false
+
+        let sql_name = $sql.wishList.updateShareListById
+        let data = [
+            //params.title || '',
+            //params.desc || 0,
+            params.price || 0,
+            params.img_url || '',
+            params.promotion_url || '',
+            id
+        ]        
+
+        let result = await query(sql_name, data)
+        //log.debug("list:", list)
+
+        return result
+    },
+
     // 更新会员
     async updateMember(id, params) {
         if (!id || !params || typeof params != "object") return false
@@ -91,10 +111,23 @@ module.exports = {
             break
         }
 
-        let result = await query(sql_name, data);
+        let result = await query(sql_name, data)
         //log.debug("list:", list)
 
-        return result;        
+        return result
+    },
+
+    //获取当前用户所有的分享链接列表
+    async getShareListById(params) {
+        var sql = $sql.wishList.getShareListById
+        var data = [params.id]
+        //log.debug("查询分享列表。。。", sql)        
+        //log.debug(data)
+
+        //查询
+        let list = await query(sql, data)
+
+        return list
     },
 
     //获取当前用户所有的分享链接列表
@@ -105,9 +138,9 @@ module.exports = {
         //log.debug(data)
 
         //查询
-        let list = await query(sql, data);
+        let list = await query(sql, data)
 
-        return list;        
+        return list
     },
 
     //获取当前用户
@@ -118,9 +151,9 @@ module.exports = {
         //log.debug(data)
 
         //查询
-        let list = await query(sql, data);
+        let list = await query(sql, data)
 
-        return list;        
+        return list
     },
 
     //获取当前用户
@@ -131,9 +164,9 @@ module.exports = {
         //log.debug(data)
 
         //查询
-        let list = await query(sql, data);
+        let list = await query(sql, data)
 
-        return list;        
+        return list
     },
 
     //获取当前用户
@@ -144,9 +177,9 @@ module.exports = {
         //log.debug(data)
 
         //查询
-        let list = await query(sql, data);
+        let list = await query(sql, data)
 
-        return list;
+        return list
     },
 
      //获取当前用户
@@ -162,9 +195,9 @@ module.exports = {
         //log.debug(data)
 
         //查询
-        let list = await query(sql_name, data);
+        let list = await query(sql_name, data)
 
-        return list;
+        return list
     },
 
     //删除分享列表
@@ -175,9 +208,9 @@ module.exports = {
         //log.debug(data)
 
         //查询
-        var result = await query(sql, data);
+        var result = await query(sql, data)
 
-        return result;        
+        return result
     },
 
-};
+}
