@@ -55,9 +55,11 @@ let Validator = {
     //获取链接中的图片地址
     getProductPic : (inputUrl) => {
         //模板：cover=https://img13.360buyimg.com/n1/s750x750_jfs/t1/20890/33/14009/547654/5ca2accbEd7a4597d/7d0a6c4e9f57cc16.jpg
-        var patten = /cover=([0-9a-zA-Z:\/\._]+\.jpg)/i
+        //20.9.16 模板：cover=https%3A%2F%2Fimg10.360buyimg.com%2Fn1%2Fs750x750_jfs%2Ft1%2F148884%2F23%2F5911%2F112317%2F5f3d5ab5Ee1c52882%2F0946b0a29da627ca.jpg!q80.webp
+        var patten = /cover=([0-9a-zA-Z\-\.\*()!~'_%]+\.jpg)/i
         var result = patten.exec(inputUrl) 
-        if (result && result[1]) return result[1]
+        // urldecode解码
+        if (result && result[1]) return decodeURIComponent(result[1])
 
         //返回：未找到
         return false

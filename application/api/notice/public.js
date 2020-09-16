@@ -1,5 +1,5 @@
 const log          = require('../../libraries/logger')()
-const noticeLog    = require('../../models/controller/sended_notice')
+const NoticeModel  = require('../../models/notice/notice_model')
 const config       = require('../../config/main')
 
 
@@ -48,7 +48,7 @@ async function checkIfSendNotice(event_name, template) {
         msg_type: template.type
     }
     log.info(params)
-    let result = await noticeLog.getSendedNotice(params)
+    let result = await NoticeModel.getLastData(params)
     if (result.code != 0 || result.data.length == 0) {
         log.error("未查到最近发送提醒的记录！")      
     } else {

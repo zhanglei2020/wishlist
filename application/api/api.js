@@ -25,6 +25,7 @@ function requestWebsite (request_url, post_params, http_method) {
             })
         }).catch((error) => {
             log.error("获取网络地址返回内容出错：", http_method, request_url, error)
+            return false
         })
 
     } catch (e) {

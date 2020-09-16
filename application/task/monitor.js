@@ -1,19 +1,14 @@
 
 const log            = require('../libraries/logger')("web")
-const HeartBeatModel = require('../models/controller/heartbeat')
-//const mail           = require('../api/notice/mail_service')
-//const wechatNotice   = require('../api/notice/wechat_service')
+const HeartBeatModel = require('../models/heartbeat/heartbeat_model')
 const notice         = require('../api/notice/notice')
-//const Url       = require("url")
-//const config    = require('../../config/main')
-//const api= require('../api')
-//const {hex_md5}      = require('../../libraries/md5')
+
 
 // 读取心跳信息
 async function getHeartbeatInfo() {
     try {
         // 读取心跳信息
-        let response = await HeartBeatModel.getHeartbeat()
+        let response = await HeartBeatModel.getHeartBeat()
         log.info(response)
         if (response.code != 0 || response.data.length == 0) throw ("未找到心跳信息！")
 
@@ -27,12 +22,9 @@ async function getHeartbeatInfo() {
 
 
         // 超过3分钟发出报警
-        if (period > 180) {
-            //mail.send()
-            //wechatNotice.send()
+        if (period > 10) {
             await notice.send("offline", {time: period + '分钟'})
         }
-        //Notice.send("all", "offline")
 
     } catch(e) {
         log.info(e) 

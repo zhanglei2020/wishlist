@@ -71,9 +71,9 @@ function parseXmlOfMiniProgram (xml) {
                 //log.debug("1..............")
                 
                 //检查是否合格的链接
-                let share_url = res.url && res.url.text() || ''
-                log.info(share_url)
-                if (!Validator.checkUrlIsJD(share_url)) throw("错误的京东链接地址！")
+                //let share_url = res.url && res.url.text() || ''
+                //log.info(share_url)
+                //if (!Validator.checkUrlIsJD(share_url)) throw("错误的京东链接地址！")
                 //log.debug("2..............")
                 
                 // 获取shareinfo
@@ -86,6 +86,7 @@ function parseXmlOfMiniProgram (xml) {
                 let product_id = Validator.getProductId(shareInfo)
                 let price = Validator.getProductPrice(shareInfo)
                 let picture = Validator.getProductPic(shareInfo)
+                log.debug("京东商品XML解析结果，分享信息：", shareInfo)
 
                 // 未获取到抛出异常
                 if (!product_id) throw("未获取到商品ID！")
@@ -97,16 +98,18 @@ function parseXmlOfMiniProgram (xml) {
                 //log.debug("6..............")
 
                 // 获取标题和描述
-                let title = res.title && res.title.text() || ""          
-                let description = res.des && res.des.text() || ""        
+                //log.debug(res.title)
+                log.debug("京东商品XML解析结果，商品描述：", res.des)
+                let title = res.title && res.title.text() || ""
+                let description = res.des && (typeof res.des.text === 'function') && res.des.text() || ""        
                                 
                 resolve({
                     title        : title,
                     description  : description,
-                    shareUrl     : share_url,
+                    shareUrl     : new_url,
                     productId    : product_id,
                     price        : price || '',
-                    image        : picture || ''            
+                    image        : picture || ''
                 })
             } catch (e) {
                 log.error(e)

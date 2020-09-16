@@ -8,7 +8,7 @@ const log          = require('../../libraries/logger')()
 const config       = require('../../config/api')
 const wechatConfig = config.wechat_notice
 const noticeConfig = require('../../config/notice')
-const noticeLog    = require('../../models/controller/sended_notice')
+const NoticeModel  = require('../../models/notice/notice_model')
 const api          = require('../api')
 const urlencode    = require('urlencode')
 const public       = require('./public')
@@ -81,12 +81,13 @@ async function send(receiver_name, template_name, _params, event_name) {
         // 保存消息
         let data = {
             event: event_name,
-            msg_type: template.type,
-            receivers: receivers.join(","),
-            content: content
+            msg_type  : template.type,
+            receivers : receivers.join(","),
+            content   : content,
+            send_time : Math.round(new Date().getTime() / 1000)
         }
-        log.info(data)
-        noticeLog.insertSendedNotice(data)
+        //log.info(data)
+        NoticeModel.insertData(data)
 
         return {code: 1, msg: "ok"}
     } catch(e) {

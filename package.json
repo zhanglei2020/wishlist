@@ -26,6 +26,9 @@
   },
   "homepage": "https://github.com/Chatie/wechaty-getting-started#readme",
   "dependencies": {
+    "express": "^4.17.1",
+    "log4js": "^6.3.0",
+    "mysql": "^2.18.1",
     "qrcode-terminal": "^0.12.0",
     "wechaty": "^0.28.3"
   },

@@ -3,7 +3,7 @@ const log          = require('../../libraries/logger')()
 const config       = require('../../config/api')
 const mailConfig   = config.mail
 const noticeConfig = require('../../config/notice')
-const noticeLog    = require('../../models/controller/sended_notice')
+const NoticeModel  = require('../../models/notice/notice_model')
 const public       = require('./public')
 //const noticeConfig = require('../../config/notice')
 
@@ -125,13 +125,14 @@ async function send(receiver_name, template_name, params, event_name) {
 
             // 保存提醒消息
             let data = {
-                event: event_name,
-                msg_type: template.type,
-                receivers: mailto.join(", "),
-                content: contentOption.html || contentOption.text || ''
+                event     : event_name,
+                msg_type  : template.type,
+                receivers : mailto.join(", "),
+                content   : contentOption.html || contentOption.text || '',
+                send_time : Math.round(new Date().getTime() / 1000)
             }
-            log.info(data)
-            noticeLog.insertSendedNotice(data)
+            //log.info(data)
+            NoticeModel.insertData(data)
 
             return {code: 1, msg: "ok"}
             // Message sent: <04ec7731-cc68-1ef6-303c-61b0f796b78f@qq.com>

@@ -59,7 +59,7 @@ async function index (req, res) {
         res.render("share_link/index.ejs", data, async (err1, str1) => {
             if(err1) log.error(err1)
             // 获取微信分享的相关参数
-            //response = await Wechat.getShareData(req)
+            response = await Wechat.getShareData(req)
             data.share = response || {}
             //log.info("share data:", data.share)
 

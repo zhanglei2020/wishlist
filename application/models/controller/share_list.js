@@ -46,7 +46,7 @@ module.exports = {
         //log.debug("slist:", shareList)
         //log.debug("params:", params)
         //当数据变化时更新商品数据
-        if (!shareList || (shareList && (shareList.title != params.title || shareList.img_url != params.image || shareList.desc != params.description || shareList.promotion_url != params.promotionUrl || shareList.price != parseFloat(params.price)))) {
+        if (!shareList || (shareList && (shareList.title != params.title || shareList.url != params.shareUrl || shareList.img_url != params.image || shareList.desc != params.description || shareList.promotion_url != params.promotionUrl || shareList.price != parseFloat(params.price)))) {
             let result = await query(sql1, shareListData)
             //log.debug("insert sharelist result:", result)
 

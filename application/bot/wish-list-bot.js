@@ -23,16 +23,16 @@
     Friendship
   }           = require('wechaty')
 
-  const log = require('../libraries/logger')("bot")
-  const {FileBox} = require('file-box')
-  const qrTerm    = require('qrcode-terminal')  
+  const log            = require('../libraries/logger')("bot")
+  const {FileBox}      = require('file-box')
+  const qrTerm         = require('qrcode-terminal')  
   //const xmlReader = require('xmlreader')
-  const Validator = require('./validator')
-  const ShareList = require('./share_list')
-  const WebConfig = require('../config/main')
-  const MessageType = require('./message_type')
-  const HeartBeatModel = require('../models/controller/heartbeat')
-  const MessageModel   = require('../models/controller/message')
+  const Validator      = require('./validator')
+  const ShareList      = require('./share_list')
+  const WebConfig      = require('../config/main')
+  const MessageType    = require('./message_type')
+  const HeartBeatModel = require('../models/heartbeat/heartbeat_model')
+  const MessageModel   = require('../models/message/message_model')
 
   /**
    *
@@ -134,8 +134,9 @@
     }
 
     // 如果是群消息，则忽略
-    if (msg.room()) {
-      log.debug("收到来自群（" + msg.room().topic() + "）的消息，自动忽略！")
+    let room = msg.room()
+    if (room) {
+      log.debug("收到来自群（", await room.topic(), "）的消息，自动忽略！")
       return
     }
 
@@ -145,12 +146,12 @@
 
     // 保存消息
     let params = {
-      contact: contact.name() || '',
+      contact   : contact.name() || '',
       contact_id: contact.id || '',
-      message: msg.text() || '',
-      type: msg.type()
+      message   : msg.text() || '',
+      type      : msg.type()
     }  
-    MessageModel.insertMessage(params)
+    MessageModel.insertData(params)
 
     // 如果不是链接或小程序，则忽略
     if (msg.type() != bot.Message.Type.Url && msg.type() != bot.Message.Type.MiniProgram)
@@ -257,8 +258,9 @@
     //log.info(bot)
     
     try {
-      const contact = bot.userSelf()
+      //const contact = bot.userSelf()
       //bot.say('hello')
+      if (!bot.logonoff()) throw("机器人已经退出，请检查。。。")
 
       // 获取当前时间
       let t = new Date()
@@ -266,17 +268,17 @@
 
       // 整理参数
       let params = {
-        id: WebConfig.heartbeat_id,
-        data: JSON.stringify(data),
-        bot_id: bot.id,
+        id       : WebConfig.heartbeat_id,
+        data     : JSON.stringify(data),
+        bot_id   : bot.id,
         beat_time: Math.round(t.getTime()/1000)
       }
 
       // 保存数据库表心跳信息
-      HeartBeatModel.insertOrUpdateHeartbeat(params)
+      HeartBeatModel.insertOrUpdateData(params)
 
     } catch(e) {
-      log.error("机器人还未登录，获取联系人失败！")
+      log.error(e)
     }
 
     //let id = bot.id
