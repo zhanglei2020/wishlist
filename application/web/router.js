@@ -2,6 +2,7 @@ const Express   = require('express')
 const Router    = Express.Router()
 const ShareLink = require('./controllers/share_list')
 const User      = require('./controllers/user')
+const Wechaty   = require('./controllers/wechaty')
 const log       = require('../libraries/logger')()
 
 // 愿望列表
@@ -39,9 +40,16 @@ Router.get('/share_list/:action', async (req, res) => {
   }
 })
 
+// 推荐列表
 Router.get('/recommend_list/:action', async (req, res) => {
   res.send("hello world")
+})
 
+// 二维码显示
+Router.get('/wechaty/qrcode', async (req, res) => {
+  // res.send("hello qrcode!")
+  // 路由到指定方法
+  await Wechaty.qrcode(req, res)
 })
 
 module.exports = Router

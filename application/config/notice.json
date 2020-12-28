@@ -10,14 +10,14 @@
         "jiangling": {
             "name"              : "姜岭",
             "mobile"            : [13718224045],
-            "mail"              : ["jiangling@corp.manze.com"],
+            "mail"              : [""],
             "wechat_notice_user": "jiangling",
             "alias"             : "江南"
         },
         "Eric": {
             "name"              : "王东军",
             "mobile"            : [13701322233],
-            "mail"              : ["djwang@corp.manze.com"],
+            "mail"              : [""],
             "wechat_notice_user": "djwang",
             "alias"             : "Eric"
         }      
@@ -35,7 +35,7 @@
         },
         "offlineWechat": {
             "type"    : "wechat",
-            "content" : "曼泽心愿机器人已经掉线超过${time}，请尽快处理！",
+            "content" : "曼泽心愿机器人已经掉线超过${time}，请到${url}扫码登录！",
             "charset" : "gbk",
             "interval"   : 60,
             "workPeriod" : "7-22"

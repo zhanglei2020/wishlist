@@ -92,6 +92,19 @@
     ].join('')
   
     log.info(`[${status}] ${qrcodeImageUrl}\nScan QR Code above to log in: `)
+
+    // 获取当前时间
+    let t = new Date()
+
+    // 整理参数
+    let data = {
+      qr_code_login : qrcodeImageUrl,
+      qr_code_time : Math.round(t.getTime()/1000)
+    }
+
+    // 保存二维码地址到心跳信息表
+    if (qrcode) HeartBeatModel.updateData(1, data)
+
   }
   
   function onLogin (user) {
@@ -188,10 +201,10 @@
       log.info(urlLink)
 
       // 回复分享链接
-      await msg.say(urlLink) 
+      await contact.say(urlLink) 
     } else {
       // 回复
-      await msg.say("对不起，您分享的链接不是有效的商品！")      
+      await contact.say("对不起，您分享的链接不是有效的商品！")      
     }    
 
   }
@@ -269,10 +282,11 @@
       // 整理参数
       let params = {
         id       : WebConfig.heartbeat_id,
-        data     : JSON.stringify(data),
+        data     : typeof(data) == 'string' ? data : JSON.stringify(data),
         bot_id   : bot.id,
         beat_time: Math.round(t.getTime()/1000)
       }
+      log.info(params)
 
       // 保存数据库表心跳信息
       HeartBeatModel.insertOrUpdateData(params)
