@@ -9,25 +9,27 @@ function replaceTemplate(str, params) {
     let v1 = [], v2 = []
     // 查询需要替换的变量名
     let patt = new RegExp("\\$\{([a-zA-Z]+)\}", "g")
-    //console.log(patt.exec(str))
+    //console.log("a:", patt.exec(str))
+    console.log("str:", str)
+    console.log("params:", params)
     // 循环调用正则匹配，直到返回null为止
     while ((result = patt.exec(str)) != null) {
-        console.log(result)
+        console.log("result:", result)
         // 去重
         if(v1.indexOf(result[0]) < 0) {
             v1.push(result[0])
             v2.push(result[1])
         }
     }
-    console.log(v1)
-    console.log(v2)
+    console.log('v1:', v1)
+    console.log('v2:', v2)
 
     // 把v1替换成v2对应的值
     for (const key in v2) {
         console.log(v2[key])
         if (params[v2[key]]) {           
             str = str.replace(v1[key], params[v2[key]])
-            console.log(str)
+            console.log('str:',str)
         }
     }
     return str

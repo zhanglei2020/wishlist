@@ -34,11 +34,11 @@ function getPriceFromPage (html) {
     // 查找含有价格的字符串
     var patten = /window\._itemInfo\s*=[\s\S]*['"]price['"]:\s*({[\s\S]*?}),\s*['"]stock['"]/i
     var result = patten.exec(html)
-    //log.debug(result)
+    //log.debug("正则匹配：", result)
 
     if (!result || !result[1]) return ""
     var str = result[1]
-    //log.info("result:", str) 
+    log.info("JSON 字符串:", str) 
 
     // 转换成json对象
     try {

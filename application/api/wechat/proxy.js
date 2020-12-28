@@ -11,7 +11,10 @@ const log        = require('../../libraries/logger')()
 async function getShareData (request) {
     //log.info(request)
     let location = getCurrentUrl(request)
-    //log.debug("当前页面url：", location)
+    let end = location.indexOf("&openid")
+    log.debug("url end", end)
+    if (end > 0) location = location.substring(0, end)
+    log.debug("当前页面url：", location)
 
     // 请求服务接口
     let response = await requestWechatProxy("getJSAPIParameter", {url : location}, "POST")

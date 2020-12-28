@@ -9,12 +9,14 @@ function requestWebsite (request_url, post_params, http_method) {
         if (post_params && typeof post_params != "object") throw ("Post参数必须为对象")
 
         // 整理参数
-        var params = (http_method == "POST") ? {url: request_url, form   : post_params} : request_url
-        var http_method = (http_method == "POST") ? 'post' : 'get'
+        //let headers = {"user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"}
+        let headers = {"user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36 Edg/87.0.664.66"}
+        let params = (http_method == "POST") ? {url: request_url, method: http_method, form: post_params} : {url: request_url, method: http_method, headers: headers}
+        //var http_method = (http_method == "POST") ? 'post' : 'get'
 
          // 返回结果
          return new Promise ((resolve, reject) => {
-            request[http_method](params, function (err, res, body) {
+            request(params, function (err, res, body) {
                 if (err) {
                     log.error("请求网络地址发生错误：", http_method, request_url, err)
                     reject(err)
